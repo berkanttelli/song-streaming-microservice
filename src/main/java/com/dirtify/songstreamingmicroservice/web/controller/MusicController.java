@@ -27,10 +27,6 @@ public class MusicController {
     @GetMapping("/{fileName}/stream")
     public ResponseEntity<Resource> streamMusic(@PathVariable String fileName,
                                                 @RequestHeader HttpHeaders headers) {
-//        Resource musicFile = musicStorageService.loadMusicFile(fileName);
-//        return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
-//                .header(HttpHeaders.CONTENT_TYPE, "audio/mpeg")
-//                .body(musicFile);
         try {
             Resource musicFile = musicStorageService.loadMusicFile(fileName);
             File file = musicFile.getFile();
