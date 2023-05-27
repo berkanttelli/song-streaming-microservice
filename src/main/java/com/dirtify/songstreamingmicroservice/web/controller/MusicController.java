@@ -1,6 +1,8 @@
 package com.dirtify.songstreamingmicroservice.web.controller;
 
 import com.dirtify.songstreamingmicroservice.service.MusicStorageService;
+import com.dirtify.songstreamingmicroservice.service.SongCheckService;
+import com.dirtify.songstreamingmicroservice.web.model.response.MusicAvailableResponseModel;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -19,9 +21,11 @@ import java.util.List;
 @RequestMapping("/songs")
 public class MusicController {
     private final MusicStorageService musicStorageService;
+    private final SongCheckService songCheckService;
 
-    public MusicController(MusicStorageService musicStorageService1) {
+    public MusicController(MusicStorageService musicStorageService1, SongCheckService songCheckService) {
         this.musicStorageService = musicStorageService1;
+        this.songCheckService = songCheckService;
     }
 
     @GetMapping("/{fileName}/stream")
@@ -64,6 +68,14 @@ public class MusicController {
         } catch (IOException e) {
             throw new RuntimeException("Could not stream music file", e);
         }
+    }
+
+    // TODO check if music in database
+    @GetMapping("isAvailable")
+    public ResponseEntity<MusicAvailableResponseModel> checkMusicAvailability(@RequestBody List<Long> musicIds) {
+        MusicAvailableResponseModel musicAvailableResponseModel = songCheckService.availableMusicList(musicIds);
+
+        return new ResponseEntity<>(musicAvailableResponseModel, HttpStatus.OK);
     }
 
 }
