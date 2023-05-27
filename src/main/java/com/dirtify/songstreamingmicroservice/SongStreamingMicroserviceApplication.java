@@ -12,4 +12,5 @@ public class SongStreamingMicroserviceApplication {
 		SpringApplication.run(SongStreamingMicroserviceApplication.class, args);
 	}
 
+
 }

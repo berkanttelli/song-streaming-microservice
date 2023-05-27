@@ -12,4 +12,11 @@ public interface SongRepository extends JpaRepository<SongModel, Long> {
 
     @Override
     Optional<SongModel> findById(Long aLong);
+
+    @Override
+    <S extends SongModel> S saveAndFlush(S entity);
+
+    @Override
+    void deleteById(Long aLong);
+
 }
