@@ -72,7 +72,7 @@ public class MusicController {
     }
 
 
-    @GetMapping("isAvailable")
+    @PostMapping("isAvailable")
     public ResponseEntity<MusicAvailableResponseModel> checkMusicAvailability(@RequestBody List<Long> musicIds) {
         MusicAvailableResponseModel musicAvailableResponseModel = songCheckService.availableMusicList(musicIds);
 
