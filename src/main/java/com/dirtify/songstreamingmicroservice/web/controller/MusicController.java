@@ -4,6 +4,8 @@ import com.dirtify.songstreamingmicroservice.service.MusicStorageService;
 import com.dirtify.songstreamingmicroservice.service.SongCheckService;
 import com.dirtify.songstreamingmicroservice.web.model.response.MusicAvailableResponseModel;
 import jakarta.ws.rs.Path;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +24,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/songs")
 public class MusicController {
+
+    private static final Logger logger = LoggerFactory.getLogger(MusicController.class);
     private final MusicStorageService musicStorageService;
     private final SongCheckService songCheckService;
 
@@ -61,6 +65,7 @@ public class MusicController {
             responseHeaders.add("ETag", "fileName");
             responseHeaders.add(HttpHeaders.CONTENT_RANGE, "bytes " + start + "-" + end + "/" + fileLength);
             responseHeaders.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(bytes.length));
+            logger.info("Id: " + id.toString() + " Range: " + headers.get("Range"));
 
             InputStreamResource inputStreamResource = new InputStreamResource(new ByteArrayInputStream(bytes));
 
@@ -69,6 +74,7 @@ public class MusicController {
         } catch (IOException e) {
             throw new RuntimeException("Could not stream music file", e);
         }
+
     }
 
 
